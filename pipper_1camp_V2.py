@@ -5,8 +5,8 @@ import numpy as np
 # -------------------------------------------------------------------
 # Load and clean data
 # -------------------------------------------------------------------
-major = pd.read_csv('/Users/bazam/Library/CloudStorage/OneDrive-Personal/Documentos/academia/#PhD PLASTIC UNDERGROUND/7.1_excel/field data/geochem_analysis/major_ions_2camp.csv')
-field = pd.read_csv('/Users/bazam/Library/CloudStorage/OneDrive-Personal/Documentos/academia/#PhD PLASTIC UNDERGROUND/7.1_excel/field data/geochem_analysis/field_parameters_2camp.csv')
+major = pd.read_csv('/Users/bazam/Library/CloudStorage/OneDrive-Personal/Documentos/academia/#PhD PLASTIC UNDERGROUND/7.1_excel/field data/geochem_analysis/major_ions_1camp.csv')
+field = pd.read_csv('/Users/bazam/Library/CloudStorage/OneDrive-Personal/Documentos/academia/#PhD PLASTIC UNDERGROUND/7.1_excel/field data/geochem_analysis/field_parameters_1camp.csv')
 
 # Merge on Piezometer
 data = pd.merge(major, field[['Piezometer', 'alkalinity (mg/L) on site']], on='Piezometer', how='left')
@@ -103,6 +103,6 @@ ax.text(0.25, -0.08, 'Cations', ha='center', fontsize=11, fontweight='bold')
 ax.text(1.25, -0.08, 'Anions', ha='center', fontsize=11, fontweight='bold')
 ax.text(0.75, np.sqrt(3)/2 + 0.05, 'Combined (Diamond Field)', ha='center', fontsize=11, fontweight='bold')
 
-plt.title('Piper Diagram – Groundwater from Massaciuccoli Area (2nd Campaign)', fontsize=13, pad=20)
+plt.title('Piper Diagram – Groundwater from Massaciuccoli Area (1st Campaign)', fontsize=13, pad=20)
 plt.tight_layout()
 plt.show()
