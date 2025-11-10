@@ -22,16 +22,16 @@ Xlog = np.log10(X)
 plt.figure(figsize=(10,5)); sns.boxplot(data=Xlog); plt.xticks(rotation=90); plt.title('trace box'); plt.show()
 
 # correlation
-plt.figure(figsize=(10,8)); sns.heatmap(df[trace_cols].corr(method='spearman'), cmap='coolwarm', vmin=-1, vmax=1); plt.show()
+plt.figure(figsize=(10,8)); sns.heatmap(df[trace_cols + ['Na','Cl','SO4','HCO3','pH']].corr(method='spearman'), cmap='coolwarm', vmin=-1, vmax=1); plt.show()
 
 # PCA
 Xscaled = StandardScaler().fit_transform(Xlog)
-pca = PCA(n_components=3); scores = pca.fit_transform(Xscaled)
-load = pd.DataFrame(pca.components_.T, index=trace_cols, columns=['PC1','PC2','PC3'])
+pca = PCA(n_components=4); scores = pca.fit_transform(Xscaled)
+load = pd.DataFrame(pca.components_.T, index=trace_cols, columns=['PC1','PC2','PC3', 'PC4'])
 print(load)
 
 # biplot scores
-plt.figure(figsize=(8,6)); sns.scatterplot(x=scores[:,0], y=scores[:,1], hue=df['campaign']); plt.title('PCA scores'); plt.show()
+#plt.figure(figsize=(8,6)); sns.scatterplot(x=scores[:,0], y=scores[:,1], hue=df['campaign']); plt.title('PCA scores'); plt.show()
 
 # clustering dendrogram
 d = sch.linkage(Xscaled, method='ward'); sch.dendrogram(d, labels=df['Piezometer'].values); plt.show()
