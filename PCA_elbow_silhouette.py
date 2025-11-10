@@ -68,15 +68,6 @@ plt.show()
 
 print(f"✅ Number of components explaining 95% variance: {pca.n_components_}")
 
-# 2D PCA scatter (for visualization)
-df_pca = pd.DataFrame(scores[:, :2], columns=['PC1','PC2'])
-df_pca['Piezometer'] = df['Piezometer']
-
-plt.figure(figsize=(7,5))
-sns.scatterplot(data=df_pca, x='PC1', y='PC2', s=60, alpha=0.8)
-plt.title('PCA (2D projection of first two components)')
-plt.show()
-
 # -------------------------------
 # Optimal K detection (Elbow + Silhouette)
 # -------------------------------
@@ -116,3 +107,36 @@ plt.show()
 # Best K selection
 best_k = int(pd.Series(silhouette).idxmax() + 2)  # +2 because K_range starts at 2
 print(f"✅ Optimal number of clusters (silhouette): {best_k}")
+
+# -------------------------------
+# 2D PCA plot with cluster colors
+# -------------------------------
+import seaborn as sns
+
+kmeans = KMeans(n_clusters=best_k, random_state=42, n_init=10)
+labels = kmeans.fit_predict(scores[:, :3])
+
+plt.figure(figsize=(8, 6))
+sns.scatterplot(
+    x=scores[:, 0], y=scores[:, 1],
+    hue=labels, palette='tab10', s=100, edgecolor='k'
+)
+for i, txt in enumerate(df['Piezometer']):
+    plt.text(scores[i, 0] + 0.02, scores[i, 1] + 0.02, txt, fontsize=8)
+
+plt.title('PCA (PC1 vs PC2) - Cluster Visualization')
+plt.xlabel(f"PC1 ({explained_var[0]*100:.1f}% var)")
+plt.ylabel(f"PC2 ({explained_var[1]*100:.1f}% var)")
+plt.legend(title='Cluster')
+plt.tight_layout()
+plt.show()
+
+df_clusters = df.copy()
+df_clusters['Cluster'] = labels
+cluster_means = df_clusters.groupby('Cluster').mean(numeric_only=True)
+print(cluster_means.T)
+
+sns.heatmap(cluster_means.T, cmap='viridis', annot=True, fmt='.2f')
+plt.title('Cluster-wise Trace Element Patterns')
+plt.show()
+
