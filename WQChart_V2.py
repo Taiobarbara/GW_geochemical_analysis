@@ -15,5 +15,8 @@ df
 #from wqchartpy import stiff
 #stiff.plot(df, unit='mg/L', figname='Stiff diagram', figformat='jpg')
 
-from wqchartpy import hfed
-hfed.plot(df, unit='mg/L', figname='HFE-D diagram', figformat='jpg')
+#from wqchartpy import hfed
+#hfed.plot(df, unit='mg/L', figname='HFE-D diagram', figformat='jpg')
+
+from wqchartpy import schoeller
+schoeller.plot(df, unit='mg/L', figname='Schoeller diagram', figformat='jpg')
