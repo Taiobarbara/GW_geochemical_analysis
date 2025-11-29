@@ -5,7 +5,7 @@ import contextily as ctx
 import os
 
 # Load data
-df = pd.read_csv("/Users/bazam/Library/CloudStorage/OneDrive-Personal/Documentos/academia/#PhD PLASTIC UNDERGROUND/7.1_excel/field data/geochem_analysis/major_trace_comb_half_lod.csv")
+df = pd.read_csv("/Users/bazam/Library/CloudStorage/OneDrive-Personal/Documentos/academia/#PhD PLASTIC UNDERGROUND/7.1_excel/field data/geochem_analysis/sampling_table_with_clusters.csv")
 
 # Variables to map
 major_cols = ['Na','Mg','K','Ca','F','Cl','NO3','PO4','SO4','HCO3']
