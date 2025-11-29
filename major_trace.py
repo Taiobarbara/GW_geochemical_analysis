@@ -125,10 +125,6 @@ loadings = pca.components_.T * np.sqrt(pca.explained_variance_)
 # Retrieve correlation matrix again
 corr = df.corr().abs()
 
-# Cluster variables based on correlation (reuse dendrogram)
-Z = linkage(corr, method='ward')
-cluster_ids = dendrogram(Z, no_plot=True)['leaves']
-
 # Assign variable cluster groups manually based on heatmap inspection
 # (You can adjust these groupings based on your previous visual)
 group1 = ['Na', 'Mg', 'Ca', 'HCO3', 'Sr', 'Ba']
