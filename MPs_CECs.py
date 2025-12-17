@@ -60,6 +60,82 @@ filtered = corr_df[
 
 filtered
 
-print(filtered)
+#print(filtered)
 
+import matplotlib.pyplot as plt
 
+def plot_mp_vs_multiple_cecs(
+    df,
+    mp_var,
+    cec_list,
+    y_log=True,
+    xlabel=None
+):
+    plt.figure(figsize=(7, 5))
+
+    markers = {1: "o", 2: "s"}
+    colors = plt.cm.tab10.colors  # clean categorical palette
+
+    for i, cec in enumerate(cec_list):
+        for campaign in sorted(df["Campaign"].unique()):
+            subset = df[df["Campaign"] == campaign]
+
+            plt.scatter(
+                subset[mp_var],
+                subset[cec],
+                marker=markers[campaign],
+                color=colors[i % len(colors)],
+                s=70,
+                alpha=0.75,
+                edgecolor="black",
+                label=cec if campaign == 1 else None
+            )
+
+    if y_log:
+        plt.yscale("log")
+
+    plt.xlabel(xlabel if xlabel else mp_var)
+    plt.ylabel("CEC concentration (ng/L)")
+    plt.title(f"{mp_var} vs individual CECs")
+
+    plt.legend(
+        title="CEC",
+        bbox_to_anchor=(1.02, 1),
+        loc="upper left",
+        frameon=False
+    )
+
+    plt.grid(True, which="both", linestyle="--", alpha=0.4)
+    plt.tight_layout()
+    plt.show()
+
+daily_cecs = ["caffeine", "saccharin", "cotinine", "paraxanthine"]
+
+plot_mp_vs_multiple_cecs(
+    df,
+    mp_var="PS_ppl",
+    cec_list=daily_cecs,
+    xlabel="PS (particles/L)"
+)
+
+pharma_cecs = [
+    "theophylline",
+    "valsartan",
+    "diclofenac",
+    "iohexol",
+    "paracetamol"
+]
+
+plot_mp_vs_multiple_cecs(
+    df,
+    mp_var="PFTE_ppl",
+    cec_list=pharma_cecs,
+    xlabel="PFTE (particles/L)"
+)
+
+plot_mp_vs_multiple_cecs(
+    df,
+    mp_var="PS_area",
+    cec_list=daily_cecs,
+    xlabel="PS surface area (µm²)"
+)
