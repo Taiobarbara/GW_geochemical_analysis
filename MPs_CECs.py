@@ -139,3 +139,136 @@ plot_mp_vs_multiple_cecs(
     cec_list=daily_cecs,
     xlabel="PS surface area (µm²)"
 )
+
+import matplotlib.pyplot as plt
+
+pairs = [
+    ("PET_ppl", "valsartan", "PET (particles/L)", "Valsartan (ng/L)"),
+    ("PVC_ppl", "valsartan", "PVC (particles/L)", "Valsartan (ng/L)"),
+    ("PS_ppl", "caffeine", "PS (particles/L)", "Caffeine (ng/L)"),
+    ("PFTE_ppl", "salicylic_acid", "PFTE (particles/L)", "Salicylic acid (ng/L)"),
+    ("other_ppl", "BTA", "Other co-polymers (particles/L)", "BTA (ng/L)")
+]
+
+markers = {1: "o", 2: "s"}
+label_colors = {
+    "S1": "red",
+    "S2": "green",
+    "S3": "blue",
+    "S4": "orange",
+    "S5": "purple"
+}
+
+fig, axes = plt.subplots(2, 3, figsize=(13, 8))
+axes = axes.flatten()
+
+for ax, (mp, cec, xlabel, ylabel) in zip(axes, pairs):
+    for _, row in df.iterrows():
+        ax.scatter(
+            row[mp],
+            row[cec],
+            color=label_colors[row["Label"]],
+            marker=markers[row["Campaign"]],
+            s=70,
+            alpha=0.8,
+            edgecolor="black"
+        )
+
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.set_yscale("log")
+    ax.grid(True, which="both", linestyle="--", alpha=0.4)
+
+# Remove empty subplot
+fig.delaxes(axes[-1])
+
+# === Custom legends ===
+campaign_handles = [
+    plt.Line2D([0], [0], marker="o", color="k", linestyle="", label="Campaign 1"),
+    plt.Line2D([0], [0], marker="s", color="k", linestyle="", label="Campaign 2")
+]
+
+label_handles = [
+    plt.Line2D([0], [0], marker="o", color=c, linestyle="", label=l)
+    for l, c in label_colors.items()
+]
+
+fig.legend(
+    handles=campaign_handles + label_handles,
+    loc="lower center",
+    ncol=4,
+    frameon=False
+)
+
+plt.suptitle("Relationships between selected polymers (ppl) and individual CECs", y=0.98)
+plt.tight_layout(rect=[0, 0.08, 1, 0.95])
+plt.show()
+
+import matplotlib.pyplot as plt
+
+polymers = [
+    "PVC_ppl", "PE_ppl", "PP_ppl", "PS_ppl",
+    "PFTE_ppl", "PA_ppl", "PET_ppl", "other_ppl"
+]
+
+additives = ["BPA", "BTA", "BPS", "ethylparaben", "methylparaben"]
+
+poly_colors = {
+    "PVC_ppl": "brown",
+    "PE_ppl": "green",
+    "PP_ppl": "blue",
+    "PS_ppl": "purple",
+    "PFTE_ppl": "teal",
+    "PA_ppl": "orange",
+    "PET_ppl": "red",
+    "other_ppl": "black"
+}
+
+markers = {1: "o", 2: "s"}
+
+fig, axes = plt.subplots(len(additives), 1, figsize=(10, 14), sharex=True)
+
+for ax, additive in zip(axes, additives):
+    for poly in polymers:
+        for _, row in df.iterrows():
+            ax.scatter(
+                row[poly],
+                row[additive],
+                color=poly_colors[poly],
+                marker=markers[row["Campaign"]],
+                s=60,
+                alpha=0.75,
+                edgecolor="black"
+            )
+
+    ax.set_ylabel(f"{additive} (ng/L)")
+    ax.set_yscale("log")
+    ax.grid(True, which="both", linestyle="--", alpha=0.4)
+
+axes[-1].set_xlabel("Polymer concentration (particles/L)")
+
+# === Legends ===
+poly_handles = [
+    plt.Line2D([0], [0], marker="o", color=c, linestyle="", label=p.replace("_ppl", ""))
+    for p, c in poly_colors.items()
+]
+
+campaign_handles = [
+    plt.Line2D([0], [0], marker="o", color="k", linestyle="", label="Campaign 1"),
+    plt.Line2D([0], [0], marker="s", color="k", linestyle="", label="Campaign 2")
+]
+
+fig.legend(
+    handles=poly_handles + campaign_handles,
+    loc="lower center",
+    ncol=5,
+    frameon=False
+)
+
+plt.suptitle(
+    "Polymer particle concentrations (ppl) vs plastic additives",
+    y=0.98
+)
+
+plt.tight_layout(rect=[0, 0.08, 1, 0.96])
+plt.show()
