@@ -10,8 +10,8 @@ df = pd.read_csv(file_path)
 # ------------------------------------------------------------------
 # 2. Select compound and polymer
 # ------------------------------------------------------------------
-compound = ["BPA"]
-polymer_area = ["PVC_mass", "PET_mass", "PS_mass"]
+compound = "BPA"
+polymer_area = "PVC_mass"
 
 # Keep only detected BTA values and non-zero polymer area
 df_plot = df[(df[compound] > 0) & (df[polymer_area] > 0)]
