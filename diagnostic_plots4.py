@@ -20,13 +20,15 @@ def lighten_color(color, amount=0.5):
 file_path = "/Users/bazam/Library/CloudStorage/OneDrive-Personal/Documentos/academia/#PhD PLASTIC UNDERGROUND/7.1_excel/field data/geochem_analysis/MP_size_mass_CEC_ng.csv"
 df = pd.read_csv(file_path)
 
-compound = "ensulizole"
+#df = df[df["Label"] != "S5"]
+
+compound = "BTA"
 
 # Polymer → marker mapping
 polymer_masses = {
-    "PET_area": "o",
-    "PVC_area": "s",
-   # "PS_area": "^"
+    "PVC_area": "o",
+    "PET_area": "s",
+    "PS_area": "^"
 }
 
 plt.figure(figsize=(9, 6))
@@ -77,14 +79,14 @@ polymer_legend = [
 plt.legend(
     handles=polymer_legend,
     title="Polymer type",
-    loc="upper right",
+    loc="lower right",
     frameon=True
 )
 
 # --------------------------------------------------
 # Formatting
 # --------------------------------------------------
-plt.xlabel("Polymer area (µg²/L)")
+plt.xlabel("Polymer area (µm²/L)")
 plt.ylabel(f"{compound} concentration (ng/L)")
 plt.title(f"{compound} vs polymer mass")
 
