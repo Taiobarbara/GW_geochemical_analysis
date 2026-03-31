@@ -8,7 +8,7 @@ df = pd.read_csv("/Users/bazam/Library/CloudStorage/OneDrive-Personal/Documentos
 
 # --- major ions ---
 hydro_cols = [
-    "pH", "EC", "TDS",
+    "pH", "EC", #"TDS",
     #"Na", "Ca", "Mg",
     #"Cl", "SO4", "HCO3",
     "Na_meq", "Ca_meq", "Mg_meq",

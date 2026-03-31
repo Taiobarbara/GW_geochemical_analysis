@@ -20,7 +20,7 @@ cec_vars = [
 ]
 
 hydro_vars = [
-    "pH", "EC", "TDS",
+    "pH", "EC", #"TDS",
     "Na_meq", "Mg_meq", "Ca_meq",
     "Cl_meq", "SO4_meq", "HCO3_meq"
 ]
